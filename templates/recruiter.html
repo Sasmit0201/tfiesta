@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #2d3748;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(72, 187, 120, 0.3);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: 700;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            margin-bottom: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .card h3 {
+            color: #2d3748;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-green {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+        }
+
+        .btn-green:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+        }
+
+        .btn-red {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+            color: white;
+        }
+
+        .btn-red:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(229, 62, 62, 0.4);
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        .badge-accepted {
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+            color: #22543d;
+        }
+
+        .badge-rejected {
+            background: linear-gradient(135deg, #fed7d7 0%, #fc8181 100%);
+            color: #822727;
+        }
+
+        .badge-pending {
+            background: linear-gradient(135deg, #bee3f8 0%, #90cdf4 100%);
+            color: #2c5282;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            margin: 8px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #48bb78;
+            box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        }
+
+        th {
+            text-align: left;
+            color: #4a5568;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 15px;
+            border-bottom: 2px solid #e2e8f7;
+        }
+
+        td {
+            padding: 18px 15px;
+            border-bottom: 1px solid #edf2f7;
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background: #f7fafc;
+        }
+
+        .flash {
+            padding: 16px 20px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 500;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .error {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons input[type="text"] {
+            width: 180px;
+            margin: 0;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .profile-link {
+            font-size: 12px;
+            color: #4299e1;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 5px;
+            padding: 4px 8px;
+            background: #ebf8ff;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .profile-link:hover {
+            background: #bee3f8;
+            color: #2c5282;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Recruiter Dashboard</h1>
+            <a href="/">🚪 Logout</a>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="card">
+            <h3><span>🚀</span> Post Opportunity</h3>
+            <form action="/recruiter/post_job" method="POST">
+                <input type="text" name="title" placeholder="Job Title" required>
+                <input type="text" name="company" placeholder="Company Name" required>
+                <input type="text" name="skills" placeholder="Required Skills (e.g. Python, SQL)" required>
+                <textarea name="description" placeholder="Description" rows="4" required></textarea>
+                <button type="submit" class="btn btn-green" style="width:100%; margin-top:15px; padding: 14px;">Post Job</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3><span>📩</span> Incoming Applications</h3>
+            {% if applications %}
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Feedback</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for app in applications %}
+                            <tr>
+                                <td>
+                                    <strong>{{ app.student_name }}</strong>
+                                    {% if app.student_id %}
+                                        <br><a href="/recruiter/view_student/{{ app.student_id }}" class="profile-link">👤 View Profile</a>
+                                    {% endif %}
+                                    {% if app.auto_rejected %}
+                                        <br><span style="font-size:11px; color:#e53e3e; padding: 2px 6px; background: #fed7d7; border-radius: 4px; display: inline-block; margin-top: 4px;">⚠️ Auto-rejected</span>
+                                    {% endif %}
+                                </td>
+                                <td><strong>{{ app.job.title }}</strong></td>
+                                <td>
+                                    <span class="badge badge-{{ app.status|lower }}">
+                                        {{ app.status }}
+                                    </span>
+                                </td>
+                                <td style="max-width:250px; font-size:13px;">
+                                    {% if app.status == 'Rejected' and app.feedback %}
+                                        <span style="color:#e53e3e;">🛑 {{ app.feedback }}</span>
+                                    {% elif app.status == 'Accepted' and app.feedback %}
+                                        <span style="color:#22543d;">🎉 {{ app.feedback }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if app.status == 'Pending' %}
+                                        <div class="action-buttons">
+                                            <a href="/recruiter/accept/{{ app.id }}" class="btn btn-green">✔ Accept</a>
+                                            <form action="/recruiter/reject/{{ app.id }}" method="POST" style="display:inline-flex; gap:8px; align-items:center;">
+                                                <input type="text" name="reason" placeholder="Rejection reason (required)" required>
+                                                <button type="submit" class="btn btn-red" title="Reject with instant feedback">✘ Reject</button>
+                                            </form>
+                                        </div>
+                                    {% else %}
+                                        <span style="color:#718096; font-size:13px;">Processed</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>No applications yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

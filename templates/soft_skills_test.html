@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soft Skills Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #2d3748;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(72, 187, 120, 0.3);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            margin-bottom: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .question-box {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 5px solid #48bb78;
+        }
+
+        .question-box h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .question-box p {
+            font-size: 16px;
+            font-weight: 500;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .option {
+            margin: 12px 0;
+            padding: 16px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #48bb78;
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            transform: translateX(5px);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .option label {
+            cursor: pointer;
+            margin: 0;
+            flex: 1;
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #fffaf0 0%, #ffeaa7 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 4px solid #ed8936;
+        }
+
+        .info-box strong {
+            color: #c05621;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Soft Skills Test</h1>
+            <a href="/student/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+        </div>
+
+        <div class="info-box">
+            <strong>📋 Instructions:</strong>
+            This test evaluates your soft skills with situational questions based on real corporate scenarios.<br>
+            Choose the best response for each situation. Your score will be saved to your profile.
+        </div>
+
+        <form method="POST">
+            <input type="hidden" name="student_name" value="{{ student_name }}">
+            
+            {% for question in questions %}
+            <div class="card">
+                <div class="question-box">
+                    <h3 style="margin-top:0;">Question {{ loop.index }}:</h3>
+                    <p>{{ question.question }}</p>
+                </div>
+                
+                <div class="option">
+                    <input type="radio" name="answer_{{ question.id }}" id="option_a_{{ question.id }}" value="A" required>
+                    <label for="option_a_{{ question.id }}"><strong>A:</strong> {{ question.option_a }}</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="answer_{{ question.id }}" id="option_b_{{ question.id }}" value="B" required>
+                    <label for="option_b_{{ question.id }}"><strong>B:</strong> {{ question.option_b }}</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="answer_{{ question.id }}" id="option_c_{{ question.id }}" value="C" required>
+                    <label for="option_c_{{ question.id }}"><strong>C:</strong> {{ question.option_c }}</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="answer_{{ question.id }}" id="option_d_{{ question.id }}" value="D" required>
+                    <label for="option_d_{{ question.id }}"><strong>D:</strong> {{ question.option_d }}</label>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="card" style="text-align:center;">
+                <button type="submit" class="btn btn-primary" style="padding:16px 50px; font-size:16px;">
+                    Submit Test
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

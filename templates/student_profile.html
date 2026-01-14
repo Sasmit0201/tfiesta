@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile - {{ student.name }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #2d3748;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(66, 153, 225, 0.3);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            margin-bottom: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            color: #2d3748;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        .badge-accepted {
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+            color: #22543d;
+        }
+
+        .badge-rejected {
+            background: linear-gradient(135deg, #fed7d7 0%, #fc8181 100%);
+            color: #822727;
+        }
+
+        .badge-pending {
+            background: linear-gradient(135deg, #bee3f8 0%, #90cdf4 100%);
+            color: #2c5282;
+        }
+
+        .info-row {
+            margin: 18px 0;
+            padding: 18px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 12px;
+            border-left: 4px solid #4299e1;
+            transition: all 0.3s;
+        }
+
+        .info-row:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            color: #2d3748;
+            font-size: 16px;
+        }
+
+        .info-value a {
+            color: #4299e1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .info-value a:hover {
+            color: #3182ce;
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        }
+
+        th {
+            text-align: left;
+            color: #4a5568;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 15px;
+            border-bottom: 2px solid #e2e8f7;
+        }
+
+        td {
+            padding: 18px 15px;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        tr:hover {
+            background: #f7fafc;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👤 Student Profile: {{ student.name }}</h1>
+            <a href="/recruiter/dashboard" class="btn">← Back to Dashboard</a>
+        </div>
+
+        <div class="card">
+            <h2><span>📋</span> Profile Information</h2>
+            <div class="info-row">
+                <div class="info-label">Name</div>
+                <div class="info-value">{{ student.name }}</div>
+            </div>
+            {% if student.github_url %}
+            <div class="info-row">
+                <div class="info-label">GitHub Profile</div>
+                <div class="info-value">
+                    <a href="{{ student.github_url }}" target="_blank">🔗 {{ student.github_url }}</a>
+                </div>
+            </div>
+            {% endif %}
+            {% if student.projects %}
+            <div class="info-row">
+                <div class="info-label">Projects</div>
+                <div class="info-value">{{ student.projects }}</div>
+            </div>
+            {% endif %}
+            {% if student.digilocker_id %}
+            <div class="info-row">
+                <div class="info-label">DigiLocker ID</div>
+                <div class="info-value">📄 {{ student.digilocker_id }}</div>
+            </div>
+            {% endif %}
+            {% if student.skills %}
+            <div class="info-row">
+                <div class="info-label">Skills</div>
+                <div class="info-value">{{ student.skills }}</div>
+            </div>
+            {% endif %}
+            {% if student.soft_skills_score %}
+            <div class="info-row">
+                <div class="info-label">Soft Skills Score</div>
+                <div class="info-value">
+                    <strong style="color: #48bb78; font-size: 1.2em;">{{ "%.1f"|format(student.soft_skills_score) }}%</strong>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h2><span>📝</span> Application History</h2>
+            {% if applications %}
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Job Title</th>
+                                <th>Company</th>
+                                <th>Status</th>
+                                <th>Feedback</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for app in applications %}
+                            <tr>
+                                <td><strong>{{ app.job.title }}</strong></td>
+                                <td>{{ app.job.company_name }}</td>
+                                <td>
+                                    <span class="badge badge-{{ app.status|lower }}">
+                                        {{ app.status }}
+                                    </span>
+                                </td>
+                                <td style="font-size:13px;">
+                                    {% if app.feedback %}
+                                        {{ app.feedback }}
+                                    {% else %}
+                                        <span style="color:#cbd5e0;">-</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>No applications yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
