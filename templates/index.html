@@ -12,6 +12,7 @@
         }
         
         body {
+            
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             background-attachment: fixed;
@@ -21,6 +22,9 @@
             justify-content: center;
             padding: 20px;
         }
+
+        
+        
 
         .glass-panel {
             background: rgba(255, 255, 255, 0.95);
@@ -128,9 +132,78 @@
             position: relative;
             z-index: 1;
         }
+
+        /* Loader styles */
+        /* 1. The Full-Screen Background */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out;
+        }
+
+        /* Centers the spinner and text */
+        .loader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px; /* Space between circle and text */
+        }
+
+        /* 2. The Rotating Circle (Spinner) */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3; /* Light grey background ring */
+            border-top: 5px solid #0077b5; /* Blue active ring (Change color here) */
+            border-radius: 50%; /* Makes it round */
+            animation: spin 1s linear infinite; /* The rotation magic */
+        }
+
+        /* 3. The Text Style */
+        .pulsing-text {
+            font-family: sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #555;
+            margin: 0;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        /* Animations for loader */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        /* Class to hide the loader */
+        .loader-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
+    <div id="loader-wrapper">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <h1 class="pulsing-text">tfiesta</h1>
+        </div>
+    </div>
+
     <div class="glass-panel">
         <h1>🎓 IITB Project Portal</h1>
         <p>Connecting students with world-class research & industry opportunities.</p>
@@ -148,5 +221,21 @@
             </a>
         </div>
     </div>
+
+    <script>
+        window.addEventListener("load", function() {
+            // Wait exactly 2 seconds
+            setTimeout(function() {
+                const loader = document.getElementById("loader-wrapper");
+                loader.classList.add("loader-hidden");
+
+                loader.addEventListener("transitionend", function() {
+                    if (loader.parentNode) {
+                        loader.parentNode.removeChild(loader);
+                    }
+                });
+            }, 2000);
+        });
+    </script>
 </body>
 </html>
